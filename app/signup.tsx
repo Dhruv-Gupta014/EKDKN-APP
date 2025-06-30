@@ -23,7 +23,7 @@ export default function SignupScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
-  const { signup, isLoading, language } = useAuth();
+  const { signup, login, isLoading, language } = useAuth();
 
   const handleSignup = async () => {
     if (!formData.name || !formData.email || !formData.phone || !formData.password) {
@@ -44,14 +44,18 @@ export default function SignupScreen() {
     setError('');
     const success = await signup(formData);
     if (success) {
-      Alert.alert(
-        'Success',
-        'Account created successfully! You can now login.',
-        [{ text: 'OK', onPress: () => router.replace('/login') }]
-      );
-    } else {
-      setError('Failed to create account. Email might already exist.');
-    }
+  // Automatically log in after successful sign-up
+      const loginSuccess = await login(formData.email, formData.password);
+      if (loginSuccess) {
+        router.replace('/(tabs)'); // Navigate to dashboard
+      } else {
+        Alert.alert('Account created but login failed. Please log in manually.');
+        router.replace('/login');
+  }
+}   else {
+    setError('Failed to create account. Email might already exist.');
+}
+
   };
 
   const t = (key: string) => getTranslation(key, language);

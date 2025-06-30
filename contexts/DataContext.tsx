@@ -1,42 +1,32 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { Student, Patient, Scholar, Center, DashboardStats, Attendance, LearningOutcome, OPDWheeInstance } from '@/types';
-
 interface DataContextType {
   // Students
   students: Student[];
   addStudent: (student: Omit<Student, 'id'>) => void;
-  updateStudent: (id: string, updates: Partial<Student>) => void;
-  
+  updateStudent: (id: string, updates: Partial<Student>) => void;  
   // Attendance
   attendance: Attendance[];
-  markAttendance: (attendance: Omit<Attendance, 'id'>) => void;
-  
+  markAttendance: (attendance: Omit<Attendance, 'id'>) => void; 
   // Learning Outcomes
   learningOutcomes: LearningOutcome[];
-  addLearningOutcome: (outcome: Omit<LearningOutcome, 'id'>) => void;
-  
+  addLearningOutcome: (outcome: Omit<LearningOutcome, 'id'>) => void; 
   // Patients
   patients: Patient[];
   addPatient: (patient: Omit<Patient, 'id'>) => void;
-  
   // OPD on Wheels
   opdWheels: OPDWheeInstance[];
-  addOPDWheel: (opd: Omit<OPDWheeInstance, 'id'>) => void;
-  
+  addOPDWheel: (opd: Omit<OPDWheeInstance, 'id'>) => void; 
   // Scholars
   scholars: Scholar[];
   addScholar: (scholar: Omit<Scholar, 'id'>) => void;
-  
   // Centers
   centers: Center[];
   addCenter: (center: Omit<Center, 'id'>) => void;
-  
   // Dashboard Stats
   dashboardStats: DashboardStats;
 }
-
 const DataContext = createContext<DataContextType | undefined>(undefined);
-
 // Mock data
 const mockStudents: Student[] = [
   {
@@ -64,7 +54,6 @@ const mockStudents: Student[] = [
     isActive: true,
   },
 ];
-
 const mockCenters: Center[] = [
   {
     id: 'center1',
@@ -87,7 +76,6 @@ const mockCenters: Center[] = [
     isActive: true,
   },
 ];
-
 export function DataProvider({ children }: { children: ReactNode }) {
   const [students, setStudents] = useState<Student[]>(mockStudents);
   const [attendance, setAttendance] = useState<Attendance[]>([]);
@@ -96,7 +84,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [opdWheels, setOPDWheels] = useState<OPDWheeInstance[]>([]);
   const [scholars, setScholars] = useState<Scholar[]>([]);
   const [centers, setCenters] = useState<Center[]>(mockCenters);
-
   const dashboardStats: DashboardStats = {
     totalStudents: students.length,
     totalTeachers: 12,
@@ -110,7 +97,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
       donations: 8.3,
     },
   };
-
   const addStudent = (student: Omit<Student, 'id'>) => {
     const newStudent: Student = {
       ...student,
@@ -118,13 +104,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
     };
     setStudents(prev => [...prev, newStudent]);
   };
-
   const updateStudent = (id: string, updates: Partial<Student>) => {
     setStudents(prev => prev.map(student => 
       student.id === id ? { ...student, ...updates } : student
     ));
   };
-
   const markAttendance = (attendanceRecord: Omit<Attendance, 'id'>) => {
     const newAttendance: Attendance = {
       ...attendanceRecord,
@@ -132,7 +116,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
     };
     setAttendance(prev => [...prev, newAttendance]);
   };
-
   const addLearningOutcome = (outcome: Omit<LearningOutcome, 'id'>) => {
     const newOutcome: LearningOutcome = {
       ...outcome,
@@ -140,7 +123,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
     };
     setLearningOutcomes(prev => [...prev, newOutcome]);
   };
-
   const addPatient = (patient: Omit<Patient, 'id'>) => {
     const newPatient: Patient = {
       ...patient,
@@ -148,7 +130,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
     };
     setPatients(prev => [...prev, newPatient]);
   };
-
   const addOPDWheel = (opd: Omit<OPDWheeInstance, 'id'>) => {
     const newOPD: OPDWheeInstance = {
       ...opd,
@@ -156,7 +137,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
     };
     setOPDWheels(prev => [...prev, newOPD]);
   };
-
   const addScholar = (scholar: Omit<Scholar, 'id'>) => {
     const newScholar: Scholar = {
       ...scholar,
@@ -164,7 +144,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
     };
     setScholars(prev => [...prev, newScholar]);
   };
-
   const addCenter = (center: Omit<Center, 'id'>) => {
     const newCenter: Center = {
       ...center,
@@ -172,7 +151,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
     };
     setCenters(prev => [...prev, newCenter]);
   };
-
   return (
     <DataContext.Provider value={{
       students,
@@ -196,7 +174,6 @@ export function DataProvider({ children }: { children: ReactNode }) {
     </DataContext.Provider>
   );
 }
-
 export function useData() {
   const context = useContext(DataContext);
   if (context === undefined) {
