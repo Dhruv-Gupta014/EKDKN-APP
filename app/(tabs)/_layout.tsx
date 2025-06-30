@@ -9,9 +9,20 @@ export default function TabLayout() {
   const t = (key: string) => getTranslation(key, language);
 
   if (!user) {
-    return null;
-  }
-
+  return (
+    <Tabs>
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Loading...',
+          tabBarIcon: ({ color, size }) => (
+            <User size={size} color={color} />
+          ),
+        }}
+      />
+    </Tabs>
+  );
+} 
   const getTabsForRole = () => {
     switch (user.role) {
       case 'admin':

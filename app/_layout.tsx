@@ -32,14 +32,15 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <DataProvider>
+        <StatusBar style="auto" />
         <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="auth " />
           <Stack.Screen name="index" />
           <Stack.Screen name="login" />
           <Stack.Screen name="signup" />
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="+not-found" />
         </Stack>
-        <StatusBar style="auto" />
       </DataProvider>
     </AuthProvider>
   );
